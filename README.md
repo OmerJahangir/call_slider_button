@@ -1,3 +1,14 @@
+## 📷 Screenshots
+
+### Slide to Accept
+
+![Accept Demo](screenshots/demo1.gif)
+
+### Slide to Decline
+
+![Decline Demo](screenshots/demo2.gif)
+
+
 # 📞 Call Slider Button
 
 A beautiful, fully customizable Flutter widget that mimics an incoming call slider — swipe right to accept, swipe left to decline. Ideal for call interfaces, custom UIs, or any interactive action slider.
