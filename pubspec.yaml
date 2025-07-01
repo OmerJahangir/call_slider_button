@@ -3,8 +3,6 @@ description: A customizable Flutter widget mimicking a call slider button.
 version: 1.0.0
 repository: https://github.com/OmerJahangir/call_slider_button
 
-
-publish_to: "https://pub.dev"
 environment:
   sdk: ^3.7.2
 
