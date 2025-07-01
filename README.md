@@ -30,23 +30,26 @@ CallSliderButton(
   onDecline: () => print("Declined"),
 );
 
-📘 Parameters
-Parameter	Type	Description	Default
-onAccept	VoidCallback	Callback when user slides right to accept.	Required
-onDecline	VoidCallback	Callback when user slides left to decline.	Required
-acceptText	String	Text displayed on the right side (Accept).	'Accept'
-declineText	String	Text displayed on the left side (Decline).	'Decline'
-textStyle	TextStyle?	Style applied to both acceptText and declineText.	null
-acceptColor	Color	Background glow color when dragging right.	Colors.green
-declineColor	Color	Background glow color when dragging left.	Colors.red
-idleBackgroundColor	Color	Background color when idle (not being dragged).	Color(0x22FFFFFF)
-iconColor	Color	Icon color in the center when idle.	Colors.green
-acceptIcon	IconData	Icon shown when sliding right.	Icons.call
-declineIcon	IconData	Icon shown when sliding left.	Icons.call_end
-height	double	Height of the slider button container.	70
-borderRadius	double	Border radius of the slider container.	50
-iconSize	double	Size of the center icon inside the circular avatar.	35
-iconRadius	double	Radius of the circular avatar around the icon.	30
+## Parameters
+
+| Parameter             | Type           | Description                                           | Default             |
+| --------------------- | -------------- | ----------------------------------------------------- | ------------------- |
+| `onAccept`            | `VoidCallback` | Callback when user slides right to accept.            | **Required**        |
+| `onDecline`           | `VoidCallback` | Callback when user slides left to decline.            | **Required**        |
+| `acceptText`          | `String`       | Text displayed on the right side (Accept).            | `'Accept'`          |
+| `declineText`         | `String`       | Text displayed on the left side (Decline).            | `'Decline'`         |
+| `textStyle`           | `TextStyle?`   | Style applied to both `acceptText` and `declineText`. | `null`              |
+| `acceptColor`         | `Color`        | Background glow color when dragging right.            | `Colors.green`      |
+| `declineColor`        | `Color`        | Background glow color when dragging left.             | `Colors.red`        |
+| `idleBackgroundColor` | `Color`        | Background color when idle (not being dragged).       | `Color(0x22FFFFFF)` |
+| `iconColor`           | `Color`        | Icon color in the center when idle.                   | `Colors.green`      |
+| `acceptIcon`          | `IconData`     | Icon shown when sliding right.                        | `Icons.call`        |
+| `declineIcon`         | `IconData`     | Icon shown when sliding left.                         | `Icons.call_end`    |
+| `height`              | `double`       | Height of the slider button container.                | `70`                |
+| `borderRadius`        | `double`       | Border radius of the slider container.                | `50`                |
+| `iconSize`            | `double`       | Size of the center icon inside the circular avatar.   | `35`                |
+| `iconRadius`          | `double`       | Radius of the circular avatar around the icon.        | `30`                |
+
 
 
 ## Additional information
