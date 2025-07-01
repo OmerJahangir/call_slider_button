@@ -1,36 +1,45 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# 📞 Call Slider Button
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
+A beautiful, fully customizable Flutter widget that mimics an incoming call slider — swipe right to accept, swipe left to decline. Ideal for call interfaces, custom UIs, or any interactive action slider.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
-# Call Slider Button
-A Flutter widget that mimics a call slider — swipe right to accept, left to decline. Fully customizable and animated.
+---
 
+## ✨ Features
 
-## Features
+- Swipe to **Accept** or **Decline** interactions
+- Customizable icons, text, colors, radius, animations
+- Haptic feedback on successful drag
+- Smooth animations with reset pulse effect
+- Lightweight and easy to integrate
 
-- Swipe to Accept or Decline
-- Custom icons, text, colors, radius, etc.
-- Smooth animations with haptic feedback
+---
 
-## Getting started
+## 🚀 Getting Started
 
-```dart
+To start using the Call Slider Button in your Flutter project:
+
+### 1. Add the dependency
+
+If you're using it locally:
+
+```yaml
+dependencies:
+  call_slider_button:
+    path: ../call_slider_button
+```
+If published on pub.dev (replace with actual version):
+dependencies:
+  call_slider_button: ^1.0.0
+  
+## 📦Usage
 import 'package:call_slider_button/call_slider_button.dart';
 
 CallSliderButton(
-  onAccept: () => print("Accepted"),
-  onDecline: () => print("Declined"),
+  onAccept: () => print("Call accepted"),
+  onDecline: () => print("Call declined"),
 );
 
-## Parameters
+## ⚙️ Parameters
 
 | Parameter             | Type           | Description                                           | Default             |
 | --------------------- | -------------- | ----------------------------------------------------- | ------------------- |
@@ -50,10 +59,22 @@ CallSliderButton(
 | `iconSize`            | `double`       | Size of the center icon inside the circular avatar.   | `35`                |
 | `iconRadius`          | `double`       | Radius of the circular avatar around the icon.        | `30`                |
 
+## 📂 Example
+You can find a complete example in the /example folder.
+
+To run it:
+
+cd example
+flutter run
+
+## 📄 License
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+## 🔗 Author
+
+Built with ❤️ by[Omer Jahangir]
 
 
-## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+
+
