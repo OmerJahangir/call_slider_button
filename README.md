@@ -32,6 +32,15 @@ to `/example` folder.
 const like = 'sample';
 ```
 
+| Property      | Description                    | Default   |
+| ------------- | ------------------------------ | --------- |
+| `onAccept`    | Callback when call is accepted | —         |
+| `onDecline`   | Callback when call is declined | —         |
+| `acceptText`  | Label for accept button        | "Accept"  |
+| `declineText` | Label for decline button       | "Decline" |
+| ...           | *(List all others)*            |           |
+
+
 ## Additional information
 
 TODO: Tell users more about the package: where to find more information, how to 
