@@ -16,3 +16,9 @@ dev_dependencies:
 
   lints: ^5.0.0
   test: ^1.24.0
+
+screenshots:
+  - path: screenshots/demo1.gif
+    description: Slide to accept the call
+  - path: screenshots/demo2.gif
+    description: Slide to decline the call
