@@ -5,16 +5,24 @@ class CallSliderButton extends StatefulWidget {
   final VoidCallback onAccept;
   final VoidCallback onDecline;
 
-  // Customization options
+  // Customizable labels
   final String acceptText;
   final String declineText;
+
+  // Style options
   final TextStyle? textStyle;
   final Color acceptColor;
   final Color declineColor;
-  final Color idleBackgroundColor;
+  final Color backgroundColor;
   final Color iconColor;
-  final IconData acceptIcon;
-  final IconData declineIcon;
+  final Color borderColor;
+  final Color callBtnBackgroundColor;
+
+  // Icons can be replaced with custom widgets
+  final Widget? acceptIcon;
+  final Widget? declineIcon;
+
+  // Dimensions
   final double height;
   final double borderRadius;
   final double iconSize;
@@ -29,10 +37,12 @@ class CallSliderButton extends StatefulWidget {
     this.textStyle,
     this.acceptColor = Colors.green,
     this.declineColor = Colors.red,
-    this.idleBackgroundColor = const Color(0x22FFFFFF),
+    this.backgroundColor = const Color(0xffF6F6F6),
     this.iconColor = Colors.green,
-    this.acceptIcon = Icons.call,
-    this.declineIcon = Icons.call_end,
+    this.borderColor = const Color(0xffEBEBEB),
+    this.callBtnBackgroundColor = Colors.white,
+    this.acceptIcon,
+    this.declineIcon,
     this.height = 70,
     this.borderRadius = 50,
     this.iconSize = 35,
@@ -51,18 +61,22 @@ class _CallSliderButtonState extends State<CallSliderButton>
 
   late AnimationController _resetController;
   late Animation<double> _resetAnimation;
+
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
 
+  /// Initialize animations
   @override
   void initState() {
     super.initState();
 
+    // Controller to animate back to center after drag ends
     _resetController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
 
+    // Pulse animation for the call button
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
@@ -73,6 +87,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
     );
   }
 
+  /// Dispose animation controllers
   @override
   void dispose() {
     _resetController.dispose();
@@ -80,6 +95,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
     super.dispose();
   }
 
+  /// Handle drag release and trigger actions
   void _handleDragEnd(DragEndDetails details) {
     if (_dragPosition > _dragThreshold) {
       widget.onAccept();
@@ -89,6 +105,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
     _animateReset();
   }
 
+  /// Animate the button back to center
   void _animateReset() {
     _resetAnimation = Tween<double>(
       begin: _dragPosition,
@@ -106,9 +123,11 @@ class _CallSliderButtonState extends State<CallSliderButton>
   Widget build(BuildContext context) {
     final bool isDragging = _dragPosition != 0;
     final bool isDeclining = _dragPosition < 0;
+
     final double containerWidth = MediaQuery.of(context).size.width * 0.8;
     final double safeDragLimit = containerWidth * 0.39;
 
+    // Background color based on drag direction
     final double progress = (_dragPosition.abs() / safeDragLimit).clamp(
       0.0,
       1.0,
@@ -118,11 +137,25 @@ class _CallSliderButtonState extends State<CallSliderButton>
             ? widget.acceptColor.withValues(alpha: 0.2 + 0.6 * progress)
             : _dragPosition < 0
             ? widget.declineColor.withValues(alpha: 0.2 + 0.6 * progress)
-            : widget.idleBackgroundColor;
-    final Color iconColor =
-        isDeclining ? widget.declineColor : widget.iconColor;
-    final IconData icon = isDeclining ? widget.declineIcon : widget.acceptIcon;
+            : widget.backgroundColor;
 
+    // Icon logic: use user-provided widget or fallback icon
+    final Widget defaultAcceptIcon = Icon(
+      Icons.call,
+      color: widget.iconColor,
+      size: widget.iconSize,
+    );
+    final Widget defaultDeclineIcon = Icon(
+      Icons.call_end,
+      color: widget.declineColor,
+      size: widget.iconSize,
+    );
+    final Widget iconWidget =
+        isDeclining
+            ? (widget.declineIcon ?? defaultDeclineIcon)
+            : (widget.acceptIcon ?? defaultAcceptIcon);
+
+    // Trigger haptic feedback once
     if (!_hapticTriggered && (_dragPosition.abs() > _dragThreshold + 5)) {
       HapticFeedback.mediumImpact();
       _hapticTriggered = true;
@@ -146,6 +179,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
             clipBehavior: Clip.hardEdge,
             alignment: Alignment.center,
             children: [
+              // Texts visible only when idle
               if (!isDragging) ...[
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
@@ -188,6 +222,8 @@ class _CallSliderButtonState extends State<CallSliderButton>
                   ),
                 ),
               ],
+
+              // The draggable call button with pulse animation
               GestureDetector(
                 onHorizontalDragUpdate: (details) {
                   setState(() {
@@ -210,13 +246,9 @@ class _CallSliderButtonState extends State<CallSliderButton>
                       );
                     },
                     child: CircleAvatar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: widget.callBtnBackgroundColor,
                       radius: widget.iconRadius,
-                      child: Icon(
-                        icon,
-                        color: iconColor,
-                        size: widget.iconSize,
-                      ),
+                      child: iconWidget,
                     ),
                   ),
                 ),
