@@ -13,3 +13,8 @@
 
 ### Fixed
 - More consistent animation logic and border handling
+
+## [1.1.1] - 2025-07-17
+
+### Added
+Dartdoc-style comments (using ///) to your public API members
