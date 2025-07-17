@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// A custom slider button widget used for accepting or rejecting calls.
 class CallSliderButton extends StatefulWidget {
   final VoidCallback onAccept;
   final VoidCallback onDecline;
 
-  // Customizable labels
+  /// Customizable labels
   final String acceptText;
   final String declineText;
 
-  // Style options
+  /// Style options
   final TextStyle? textStyle;
   final Color acceptColor;
   final Color declineColor;
@@ -18,11 +19,11 @@ class CallSliderButton extends StatefulWidget {
   final Color borderColor;
   final Color callBtnBackgroundColor;
 
-  // Icons can be replaced with custom widgets
+  /// Icons can be replaced with custom widgets
   final Widget? acceptIcon;
   final Widget? declineIcon;
 
-  // Dimensions
+  /// Dimensions
   final double height;
   final double borderRadius;
   final double iconSize;
@@ -70,13 +71,13 @@ class _CallSliderButtonState extends State<CallSliderButton>
   void initState() {
     super.initState();
 
-    // Controller to animate back to center after drag ends
+    /// Controller to animate back to center after drag ends
     _resetController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
 
-    // Pulse animation for the call button
+    /// Pulse animation for the call button
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
@@ -127,7 +128,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
     final double containerWidth = MediaQuery.of(context).size.width * 0.8;
     final double safeDragLimit = containerWidth * 0.39;
 
-    // Background color based on drag direction
+    /// Background color based on drag direction
     final double progress = (_dragPosition.abs() / safeDragLimit).clamp(
       0.0,
       1.0,
@@ -139,7 +140,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
             ? widget.declineColor.withValues(alpha: 0.2 + 0.6 * progress)
             : widget.backgroundColor;
 
-    // Icon logic: use user-provided widget or fallback icon
+    /// Icon logic: use user-provided widget or fallback icon
     final Widget defaultAcceptIcon = Icon(
       Icons.call,
       color: widget.iconColor,
@@ -155,7 +156,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
             ? (widget.declineIcon ?? defaultDeclineIcon)
             : (widget.acceptIcon ?? defaultAcceptIcon);
 
-    // Trigger haptic feedback once
+    /// Trigger haptic feedback once
     if (!_hapticTriggered && (_dragPosition.abs() > _dragThreshold + 5)) {
       HapticFeedback.mediumImpact();
       _hapticTriggered = true;
@@ -179,7 +180,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
             clipBehavior: Clip.hardEdge,
             alignment: Alignment.center,
             children: [
-              // Texts visible only when idle
+              /// Texts visible only when idle
               if (!isDragging) ...[
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
@@ -223,7 +224,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
                 ),
               ],
 
-              // The draggable call button with pulse animation
+              /// The draggable call button with pulse animation
               GestureDetector(
                 onHorizontalDragUpdate: (details) {
                   setState(() {
