@@ -1,24 +1,28 @@
 name: call_slider_button
-description: A customizable Flutter widget mimicking a call slider button.
-version: 1.1.1
+description: >-
+  A beautiful, fully customizable Flutter widget that mimics an incoming call
+  slider — swipe right to accept, swipe left to decline. Features smooth
+  animations, haptic feedback, and extensive customization options.
+version: 2.0.0
 repository: https://github.com/OmerJahangir/call_slider_button
+homepage: https://github.com/OmerJahangir/call_slider_button
+issue_tracker: https://github.com/OmerJahangir/call_slider_button/issues
+topics:
+  - widget
+  - slider
+  - call
+  - ui
+  - animation
 
 environment:
-  sdk: ^3.7.2
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.41.0"
 
-# Add regular dependencies here.
 dependencies:
   flutter:
     sdk: flutter
-  # path: ^1.8.0
 
 dev_dependencies:
-
-  lints: ^5.0.0
-  test: ^1.24.0
-
-screenshots:
-  - path: screenshots/demo1.gif
-    description: Slide to accept the call
-  - path: screenshots/demo2.gif
-    description: Slide to decline the call
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

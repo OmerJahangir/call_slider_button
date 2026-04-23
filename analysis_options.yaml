@@ -1,30 +1,33 @@
-# This file configures the static analysis results for your project (errors,
-# warnings, and lints).
-#
-# This enables the 'recommended' set of lints from `package:lints`.
-# This set helps identify many issues that may lead to problems when running
-# or consuming Dart code, and enforces writing Dart using a single, idiomatic
-# style and format.
-#
-# If you want a smaller set of lints you can change this to specify
-# 'package:lints/core.yaml'. These are just the most critical lints
-# (the recommended set includes the core lints).
-# The core lints are also what is used by pub.dev for scoring packages.
+# Analysis options for a professional Flutter package.
+# Uses flutter_lints for Flutter-specific rules on top of Dart best practices.
 
-include: package:lints/recommended.yaml
+include: package:flutter_lints/flutter.yaml
 
-# Uncomment the following section to specify additional rules.
+analyzer:
+  language:
+    strict-casts: true
+    strict-raw-types: true
 
-# linter:
-#   rules:
-#     - camel_case_types
+linter:
+  rules:
+    # Documentation
+    - public_member_api_docs
 
-# analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
+    # Style & clarity
+    - always_declare_return_types
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_final_locals
+    - avoid_positional_boolean_parameters
+    - sort_constructors_first
+    - sort_unnamed_constructors_first
 
-# For more information about the core and recommended set of lints, see
-# https://dart.dev/go/core-lints
+    # Safety
+    - avoid_dynamic_calls
+    - unawaited_futures
+    - cancel_subscriptions
+    - close_sinks
 
-# For additional information about configuring this file, see
-# https://dart.dev/guides/language/analysis-options
+    # Performance
+    - avoid_unnecessary_containers
+    - use_decorated_box
