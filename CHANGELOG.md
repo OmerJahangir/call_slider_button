@@ -1,7 +1,7 @@
 ## [2.0.1] 
 
 ### Changed
-- Package now supports `Flutter 3.7.0` and all later versions.
+- Package now supports `Flutter 3.0.0` and all later versions.
 - Ensures wider support across older Flutter 3.x projects.
 
 ## [2.0.0] - 2026-04-23
