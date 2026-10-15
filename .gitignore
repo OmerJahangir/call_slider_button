@@ -16,3 +16,6 @@ pubspec.lock
 
 # Coverage
 coverage/
+
+# Build output
+build/

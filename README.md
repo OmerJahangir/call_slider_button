@@ -2,7 +2,7 @@
 
 [![Pub Version](https://img.shields.io/pub/v/call_slider_button.svg)](https://pub.dev/packages/call_slider_button)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Flutter](https://img.shields.io/badge/Flutter-3.41+-02569B?logo=flutter)](https://flutter.dev)
+[![Flutter](https://img.shields.io/badge/Flutter-3.47+-02569B?logo=flutter)](https://flutter.dev)
 
 A beautiful, fully customizable Flutter widget that mimics an incoming call slider — swipe right to accept, swipe left to decline. Ideal for call interfaces, custom UIs, or any interactive action slider.
 
@@ -27,7 +27,15 @@ A beautiful, fully customizable Flutter widget that mimics an incoming call slid
 - Haptic feedback on successful drag
 - Smooth animations with reset pulse effect
 - Configurable drag threshold and slider width
+- Accessible: screen-reader **Accept** / **Decline** actions (TalkBack & VoiceOver)
+- Built on the standalone [`material_ui`](https://pub.dev/packages/material_ui) package (Material 3) — works on Android, iOS, web and desktop (pure Dart, no native code)
 - Lightweight and easy to integrate
+
+### Requirements
+
+- Flutter `>=3.47.0`, Dart `^3.13.0`
+- Works in apps that use `material_ui` and in apps still on the SDK's built-in Material library
+- Need Flutter 3.27–3.46? Use `call_slider_button: ^2.0.0`
 
 ---
 
@@ -39,7 +47,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  call_slider_button: ^2.0.0
+  call_slider_button: ^3.0.0
 ```
 
 Or install via the command line:

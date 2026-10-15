@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A customizable slider button widget for accepting or declining calls.
 ///
@@ -80,7 +81,7 @@ class CallSliderButton extends StatefulWidget {
 
   /// Background color of the slider track when idle.
   ///
-  /// Defaults to `Color(0xFFF6F6F6)`.
+  /// Defaults to `Color(0x33FFFFFF)` (translucent white).
   final Color backgroundColor;
 
   /// Color of the center icon when idle (used by default accept icon).
@@ -149,6 +150,9 @@ class _CallSliderButtonState extends State<CallSliderButton>
   double _dragPosition = 0.0;
   bool _hapticTriggered = false;
 
+  // Drag position captured when the reset animation starts.
+  double _resetStartPosition = 0.0;
+
   late final AnimationController _resetController;
   late final AnimationController _pulseController;
   late final Animation<double> _pulseAnimation;
@@ -180,7 +184,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
     _resetController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
-    );
+    )..addListener(_onResetTick);
 
     _pulseController = AnimationController(
       vsync: this,
@@ -197,6 +201,12 @@ class _CallSliderButtonState extends State<CallSliderButton>
     _resetController.dispose();
     _pulseController.dispose();
     super.dispose();
+  }
+
+  /// Cancels any in-flight reset animation so a new drag starts from the
+  /// button's current position instead of being overwritten by the reset.
+  void _onDragStart(DragStartDetails details) {
+    _resetController.stop();
   }
 
   /// Handles horizontal drag updates, clamping the position and triggering
@@ -228,23 +238,16 @@ class _CallSliderButtonState extends State<CallSliderButton>
 
   /// Smoothly resets the drag position to zero.
   void _animateReset() {
-    final Animation<double> resetAnimation = Tween<double>(
-      begin: _dragPosition,
-      end: 0.0,
-    ).animate(_resetController);
-
-    void listener() {
-      setState(() {
-        _dragPosition = resetAnimation.value;
-      });
-      if (_resetController.isCompleted) {
-        resetAnimation.removeListener(listener);
-      }
-    }
-
-    resetAnimation.addListener(listener);
+    _resetStartPosition = _dragPosition;
     _resetController.forward(from: 0.0);
     _hapticTriggered = false;
+  }
+
+  /// Interpolates the drag position from where the drag ended back to center.
+  void _onResetTick() {
+    setState(() {
+      _dragPosition = _resetStartPosition * (1 - _resetController.value);
+    });
   }
 
   @override
@@ -260,29 +263,40 @@ class _CallSliderButtonState extends State<CallSliderButton>
     final Widget iconWidget = _resolveIcon(isDeclining);
 
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(widget.borderRadius),
-        child: Container(
-          width: containerWidth,
-          height: widget.height,
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(widget.borderRadius),
-            border: Border.all(
-              color: bgColor.withValues(alpha: 0.2),
-              width: 1.5,
+      child: Semantics(
+        container: true,
+        label: '${widget.declineText} or ${widget.acceptText}',
+        hint:
+            'Swipe right to ${widget.acceptText.toLowerCase()}, '
+            'swipe left to ${widget.declineText.toLowerCase()}',
+        customSemanticsActions: <CustomSemanticsAction, VoidCallback>{
+          CustomSemanticsAction(label: widget.acceptText): widget.onAccept,
+          CustomSemanticsAction(label: widget.declineText): widget.onDecline,
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          child: Container(
+            width: containerWidth,
+            height: widget.height,
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(widget.borderRadius),
+              border: Border.all(
+                color: bgColor.withValues(alpha: 0.2),
+                width: 1.5,
+              ),
             ),
-          ),
-          child: Stack(
-            clipBehavior: Clip.hardEdge,
-            alignment: Alignment.center,
-            children: [
-              // Labels are only visible when idle.
-              if (!isDragging) _buildIdleLabels(containerWidth),
+            child: Stack(
+              clipBehavior: Clip.hardEdge,
+              alignment: Alignment.center,
+              children: [
+                // Labels are only visible when idle.
+                if (!isDragging) _buildIdleLabels(containerWidth),
 
-              // Draggable call button with pulse animation.
-              _buildDraggableButton(safeDragLimit, iconWidget),
-            ],
+                // Draggable call button with pulse animation.
+                _buildDraggableButton(safeDragLimit, iconWidget),
+              ],
+            ),
           ),
         ),
       ),
@@ -352,6 +366,7 @@ class _CallSliderButtonState extends State<CallSliderButton>
   /// Builds the draggable center button with a pulsing scale animation.
   Widget _buildDraggableButton(double safeDragLimit, Widget iconWidget) {
     return GestureDetector(
+      onHorizontalDragStart: _onDragStart,
       onHorizontalDragUpdate: (details) =>
           _onDragUpdate(details, safeDragLimit),
       onHorizontalDragEnd: _onDragEnd,

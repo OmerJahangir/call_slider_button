@@ -1,4 +1,39 @@
-## [2.0.1] 
+## [3.0.0] - 2026-10-15
+
+### Breaking
+- Migrated from the SDK's `package:flutter/material.dart` to the standalone
+  [`material_ui`](https://pub.dev/packages/material_ui) package (Flutter's
+  decoupled Material library), using `dart fix --code=migrate_design_widgets`.
+- Minimum versions raised to Flutter `>=3.47.0` / Dart `^3.13.0`, as required
+  by `material_ui`.
+
+The public API is unchanged and exposes no Material types, so the widget works
+in both migrated (`material_ui`) apps and apps still on the SDK Material
+library.
+
+### Added
+- Screen-reader support: the slider is exposed as a single semantics node with
+  **Accept** / **Decline** custom actions, so TalkBack and VoiceOver users can
+  answer or reject without dragging.
+- Full Android & iOS example app (`example/`) generated from the latest Flutter
+  templates (AGP 9, Kotlin 2, Java 17, iOS 15 + UIScene lifecycle) using a
+  Material 3 `ColorScheme.fromSeed` theme.
+
+### Changed
+- Verified against Flutter 3.47 / Dart 3.13 with Material 3 (the default).
+- Example moved to `example/lib/main.dart`.
+
+### Fixed
+- Removed the incorrect `>=3.0.0` Flutter constraint from 2.0.x: the widget
+  uses `Color.withValues` (Flutter 3.27+), so older projects could install a
+  version that failed to compile.
+- Starting a new drag while the reset animation is running no longer snaps the
+  button back to center.
+- Reset animation now uses a single persistent listener (no per-drag listener
+  registration).
+- `backgroundColor` documentation now states the real default (`0x33FFFFFF`).
+
+## [2.0.1]
 
 ### Changed
 - Package now supports `Flutter 3.0.0` and all later versions.

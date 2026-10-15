@@ -1,6 +1,8 @@
 import 'package:call_slider_button/call_slider_button.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as sdk;
+import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   group('CallSliderButton', () {
@@ -11,11 +13,7 @@ void main() {
       WidgetTester tester, {
       required CallSliderButton slider,
     }) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(body: slider),
-        ),
-      );
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: slider)));
       // Advance one frame so the widget tree is fully built.
       await tester.pump();
     }
@@ -23,10 +21,7 @@ void main() {
     testWidgets('renders with default parameters', (tester) async {
       await pumpSlider(
         tester,
-        slider: CallSliderButton(
-          onAccept: () {},
-          onDecline: () {},
-        ),
+        slider: CallSliderButton(onAccept: () {}, onDecline: () {}),
       );
 
       expect(find.text('Accept'), findsOneWidget);
@@ -49,8 +44,9 @@ void main() {
       expect(find.text('Reject'), findsOneWidget);
     });
 
-    testWidgets('fires onAccept when dragged right past threshold',
-        (tester) async {
+    testWidgets('fires onAccept when dragged right past threshold', (
+      tester,
+    ) async {
       var accepted = false;
 
       await pumpSlider(
@@ -70,8 +66,9 @@ void main() {
       expect(accepted, isTrue);
     });
 
-    testWidgets('fires onDecline when dragged left past threshold',
-        (tester) async {
+    testWidgets('fires onDecline when dragged left past threshold', (
+      tester,
+    ) async {
       var declined = false;
 
       await pumpSlider(
@@ -90,8 +87,9 @@ void main() {
       expect(declined, isTrue);
     });
 
-    testWidgets('does not fire callbacks when drag is below threshold',
-        (tester) async {
+    testWidgets('does not fire callbacks when drag is below threshold', (
+      tester,
+    ) async {
       var accepted = false;
       var declined = false;
 
@@ -115,10 +113,7 @@ void main() {
     testWidgets('hides labels during drag', (tester) async {
       await pumpSlider(
         tester,
-        slider: CallSliderButton(
-          onAccept: () {},
-          onDecline: () {},
-        ),
+        slider: CallSliderButton(onAccept: () {}, onDecline: () {}),
       );
 
       // Labels visible before drag.
@@ -220,7 +215,9 @@ void main() {
       final center = find.byType(CircleAvatar);
       await tester.drag(center, const Offset(30, 0));
 
-      // Advance past the 200ms reset animation.
+      // Advance past the 200ms reset animation. The first pump starts the
+      // ticker; the second lets it run to completion.
+      await tester.pump();
       await tester.pump(const Duration(milliseconds: 250));
 
       // After the reset animation, labels should reappear.
@@ -234,8 +231,10 @@ void main() {
         slider: CallSliderButton(
           onAccept: () {},
           onDecline: () {},
-          declineIcon:
-              const Icon(Icons.phone_disabled, key: Key('custom_decline')),
+          declineIcon: const Icon(
+            Icons.phone_disabled,
+            key: Key('custom_decline'),
+          ),
         ),
       );
 
@@ -248,6 +247,60 @@ void main() {
       expect(find.byKey(const Key('custom_decline')), findsOneWidget);
 
       await gesture.up();
+      await tester.pump(const Duration(milliseconds: 300));
+    });
+
+    testWidgets('exposes accept/decline as semantics actions', (tester) async {
+      final handle = tester.ensureSemantics();
+      var accepted = 0;
+      var declined = 0;
+
+      await pumpSlider(
+        tester,
+        slider: CallSliderButton(
+          onAccept: () => accepted++,
+          onDecline: () => declined++,
+        ),
+      );
+
+      final node = tester.getSemantics(
+        find.bySemanticsLabel(RegExp('^Decline or Accept')),
+      );
+      for (final label in ['Accept', 'Decline']) {
+        final action = CustomSemanticsAction(label: label);
+        tester.binding.performSemanticsAction(
+          SemanticsActionEvent(
+            type: SemanticsAction.customAction,
+            viewId: tester.view.viewId,
+            nodeId: node.id,
+            arguments: CustomSemanticsAction.getIdentifier(action),
+          ),
+        );
+      }
+
+      expect(accepted, 1);
+      expect(declined, 1);
+      handle.dispose();
+    });
+
+    testWidgets('works inside an unmigrated SDK MaterialApp', (tester) async {
+      var accepted = false;
+      await tester.pumpWidget(
+        sdk.MaterialApp(
+          home: sdk.Scaffold(
+            body: CallSliderButton(
+              onAccept: () => accepted = true,
+              onDecline: () {},
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      await tester.drag(find.byType(CircleAvatar), const Offset(150, 0));
+      await tester.pump();
+
+      expect(accepted, isTrue);
       await tester.pump(const Duration(milliseconds: 300));
     });
   });
