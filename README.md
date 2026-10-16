@@ -1,60 +1,61 @@
 # 📞 Call Slider Button
 
-[![Pub Version](https://img.shields.io/pub/v/call_slider_button.svg)](https://pub.dev/packages/call_slider_button)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![pub package](https://img.shields.io/pub/v/call_slider_button.svg?logo=dart&label=pub)](https://pub.dev/packages/call_slider_button)
+[![pub points](https://img.shields.io/pub/points/call_slider_button?logo=dart)](https://pub.dev/packages/call_slider_button/score)
+[![likes](https://img.shields.io/pub/likes/call_slider_button?logo=dart)](https://pub.dev/packages/call_slider_button/score)
 [![Flutter](https://img.shields.io/badge/Flutter-3.47+-02569B?logo=flutter)](https://flutter.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-A beautiful, fully customizable Flutter widget that mimics an incoming call slider — swipe right to accept, swipe left to decline. Ideal for call interfaces, custom UIs, or any interactive action slider.
+A beautiful, fully customizable **incoming-call slider** for Flutter.
+Swipe right to accept, swipe left to decline — with smooth animations, haptic
+feedback and built-in screen-reader support.
 
----
+<p align="center">
+  <img src="https://raw.githubusercontent.com/OmerJahangir/call_slider_button/main/screenshots/demo1.gif" alt="Slide right to accept" width="280">
+  &nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/OmerJahangir/call_slider_button/main/screenshots/demo2.gif" alt="Slide left to decline" width="280">
+</p>
 
-## 📷 Screenshots
-
-### Slide to Accept
-
-![Accept Demo](https://raw.githubusercontent.com/OmerJahangir/call_slider_button/main/screenshots/demo1.gif)
-
-### Slide to Decline
-
-![Decline Demo](https://raw.githubusercontent.com/OmerJahangir/call_slider_button/main/screenshots/demo2.gif)
+<p align="center"><em>Slide to accept&nbsp;&nbsp;·&nbsp;&nbsp;Slide to decline</em></p>
 
 ---
 
 ## ✨ Features
 
-- Swipe to **Accept** or **Decline** interactions
-- Customizable icons, text, colors, radius, and animations
-- Haptic feedback on successful drag
-- Smooth animations with reset pulse effect
-- Configurable drag threshold and slider width
-- Accessible: screen-reader **Accept** / **Decline** actions (TalkBack & VoiceOver)
-- Built on the standalone [`material_ui`](https://pub.dev/packages/material_ui) package (Material 3) — works on Android, iOS, web and desktop (pure Dart, no native code)
-- Lightweight and easy to integrate
-
-### Requirements
-
-- Flutter `>=3.47.0`, Dart `^3.13.0`
-- Works in apps that use `material_ui` and in apps still on the SDK's built-in Material library
-- Need Flutter 3.27–3.46? Use `call_slider_button: ^2.0.0`
+- 👉 **Swipe to accept / decline** with a pulsing call button
+- 🎨 **Fully customizable** — text, colors, icons, size, radius and drag threshold
+- 📳 **Haptic feedback** when the drag passes the threshold
+- 🌀 **Smooth animations** — color glow while dragging, springs back to center on release
+- ♿ **Accessible** — TalkBack and VoiceOver users get **Accept** / **Decline** actions, no dragging needed
+- 🧩 **Material 3 ready** — built on Flutter's standalone [`material_ui`](https://pub.dev/packages/material_ui) package
+- 📱 **Every platform** — Android, iOS, web, macOS, Windows and Linux (pure Dart, no native code)
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting started
 
-### Installation
+### Install
 
-Add the dependency to your `pubspec.yaml`:
+```bash
+flutter pub add call_slider_button
+```
+
+or add it to your `pubspec.yaml` manually:
 
 ```yaml
 dependencies:
   call_slider_button: ^3.0.0
 ```
 
-Or install via the command line:
+### Requirements
 
-```bash
-flutter pub add call_slider_button
-```
+| call_slider_button | Flutter            | Dart       |
+| ------------------ | ------------------ | ---------- |
+| **3.x**            | `>=3.47.0`         | `^3.13.0`  |
+| 2.x                | `>=3.27.0 <3.47.0` | `>=3.6.0`  |
+
+Version 3 works in apps that have migrated to `material_ui` **and** in apps
+still using the SDK's built-in `package:flutter/material.dart`.
 
 ---
 
@@ -64,17 +65,17 @@ flutter pub add call_slider_button
 import 'package:call_slider_button/call_slider_button.dart';
 
 CallSliderButton(
-  onAccept: () => print("Call accepted"),
-  onDecline: () => print("Call declined"),
+  onAccept: () => debugPrint('Call accepted'),
+  onDecline: () => debugPrint('Call declined'),
 );
 ```
 
-### Customised Example
+### Customized
 
 ```dart
 CallSliderButton(
-  onAccept: () => print("Call accepted"),
-  onDecline: () => print("Call declined"),
+  onAccept: () => debugPrint('Call accepted'),
+  onDecline: () => debugPrint('Call declined'),
   acceptText: 'Answer',
   declineText: 'Reject',
   acceptColor: Colors.teal,
@@ -95,35 +96,91 @@ CallSliderButton(
 
 ## ⚙️ Parameters
 
-| Parameter               | Type             | Description                                                    | Default             |
-| ----------------------- | ---------------- | -------------------------------------------------------------- | ------------------- |
-| `onAccept`              | `VoidCallback`   | Callback when the user slides right past the threshold.        | **Required**        |
-| `onDecline`             | `VoidCallback`   | Callback when the user slides left past the threshold.         | **Required**        |
-| `acceptText`            | `String`         | Label displayed on the right side (Accept).                    | `'Accept'`          |
-| `declineText`           | `String`         | Label displayed on the left side (Decline).                    | `'Decline'`         |
-| `textStyle`             | `TextStyle?`     | Style applied to both `acceptText` and `declineText`.          | `null`              |
-| `acceptColor`           | `Color`          | Background glow color when dragging right.                     | `Colors.green`      |
-| `declineColor`          | `Color`          | Background glow color when dragging left.                      | `Colors.red`        |
-| `backgroundColor`       | `Color`          | Background color when idle (not being dragged).                | `Color(0xFFF6F6F6)` |
-| `iconColor`             | `Color`          | Default accept icon color.                                     | `Colors.green`      |
-| `borderColor`           | `Color`          | Border color of the slider track.                              | `Color(0xFFEBEBEB)` |
-| `callBtnBackgroundColor`| `Color`          | Background color of the circular call button.                  | `Colors.white`      |
-| `acceptIcon`            | `Widget?`        | Custom widget shown when sliding right.                        | `Icon(Icons.call)`  |
-| `declineIcon`           | `Widget?`        | Custom widget shown when sliding left.                         | `Icon(Icons.call_end)` |
-| `height`                | `double`         | Height of the slider container.                                | `70`                |
-| `width`                 | `double?`        | Width of the slider container. Defaults to 80 % screen width.  | `null`              |
-| `borderRadius`          | `double`         | Corner radius of the slider container.                         | `50`                |
-| `iconSize`              | `double`         | Size of the center icon inside the circular avatar.            | `35`                |
-| `iconRadius`            | `double`         | Radius of the circular avatar around the icon.                 | `30`                |
-| `dragThreshold`         | `double`         | Minimum drag distance to trigger accept / decline.             | `80.0`              |
+### Callbacks
+
+| Parameter   | Type           | Description                                     | Default      |
+| ----------- | -------------- | ----------------------------------------------- | ------------ |
+| `onAccept`  | `VoidCallback` | Called when the button is dragged right past `dragThreshold`. | **required** |
+| `onDecline` | `VoidCallback` | Called when the button is dragged left past `dragThreshold`.  | **required** |
+
+### Text
+
+| Parameter     | Type         | Description                                   | Default                     |
+| ------------- | ------------ | --------------------------------------------- | --------------------------- |
+| `acceptText`  | `String`     | Label on the right side while idle.           | `'Accept'`                  |
+| `declineText` | `String`     | Label on the left side while idle.            | `'Decline'`                 |
+| `textStyle`   | `TextStyle?` | Style for both labels.                        | white, 20 px, medium weight |
+
+### Colors
+
+| Parameter                | Type    | Description                                   | Default                          |
+| ------------------------ | ------- | --------------------------------------------- | -------------------------------- |
+| `acceptColor`            | `Color` | Track glow while dragging right.              | `Colors.green`                   |
+| `declineColor`           | `Color` | Track glow while dragging left.               | `Colors.red`                     |
+| `backgroundColor`        | `Color` | Track color while idle.                       | `Color(0x33FFFFFF)` (translucent white) |
+| `iconColor`              | `Color` | Color of the default accept icon.             | `Colors.green`                   |
+| `borderColor`            | `Color` | Border color of the track.                    | `Color(0xFFEBEBEB)`              |
+| `callBtnBackgroundColor` | `Color` | Background of the round call button.          | `Colors.white`                   |
+
+### Icons
+
+| Parameter     | Type      | Description                        | Default                |
+| ------------- | --------- | ---------------------------------- | ---------------------- |
+| `acceptIcon`  | `Widget?` | Shown while idle or dragging right. | `Icon(Icons.call)`     |
+| `declineIcon` | `Widget?` | Shown while dragging left.          | `Icon(Icons.call_end)` |
+
+### Size & behavior
+
+| Parameter       | Type      | Description                                        | Default             |
+| --------------- | --------- | -------------------------------------------------- | ------------------- |
+| `width`         | `double?` | Track width.                                       | 80 % of screen width |
+| `height`        | `double`  | Track height.                                      | `70`                |
+| `borderRadius`  | `double`  | Track corner radius.                               | `50`                |
+| `iconSize`      | `double`  | Size of the icon inside the call button.           | `35`                |
+| `iconRadius`    | `double`  | Radius of the round call button.                   | `30`                |
+| `dragThreshold` | `double`  | Distance (logical px) needed to accept or decline. | `80.0`              |
+
+---
+
+## ♿ Accessibility
+
+The slider is exposed to screen readers as a single element with two custom
+actions named after your `acceptText` and `declineText`:
+
+- **VoiceOver (iOS):** select the slider, swipe up/down to pick **Accept** or
+  **Decline**, then double-tap.
+- **TalkBack (Android):** select the slider, open the TalkBack menu →
+  **Actions**, then choose **Accept** or **Decline**.
+
+No extra code is needed — the actions call your `onAccept` / `onDecline`.
+
+---
+
+## ⬆️ Upgrading from 2.x
+
+3.0.0 moves the package to Flutter's standalone
+[`material_ui`](https://pub.dev/packages/material_ui) library. The widget API
+is unchanged — just make sure your project is on **Flutter 3.47 or newer**,
+then bump the version:
+
+```yaml
+dependencies:
+  call_slider_button: ^3.0.0
+```
+
+To migrate your own app to `material_ui` as well, run:
+
+```bash
+dart fix --apply --code=migrate_design_widgets
+```
 
 ---
 
 ## 📂 Example
 
-You can find a complete example in the [`/example`](example/) folder.
-
-To run it:
+A complete Android & iOS demo app lives in the
+[`example`](https://github.com/OmerJahangir/call_slider_button/tree/main/example)
+folder:
 
 ```bash
 cd example
@@ -132,11 +189,15 @@ flutter run
 
 ---
 
+## 🐞 Issues & contributions
+
+Found a bug or have an idea? Please open an issue on
+[GitHub](https://github.com/OmerJahangir/call_slider_button/issues) —
+pull requests are welcome.
+
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
----
+MIT — see the [LICENSE](https://github.com/OmerJahangir/call_slider_button/blob/main/LICENSE) file.
 
 ## 🔗 Author
 

@@ -1,3 +1,16 @@
+## [3.0.1] - 2026-10-16
+
+### Changed
+- Shortened the `pubspec.yaml` description to meet pub.dev's 180-character
+  limit (restores full pub points).
+- Redesigned the README: side-by-side demo GIFs, grouped parameter tables,
+  version-requirements table, and new Accessibility and "Upgrading from 2.x"
+  sections.
+
+### Fixed
+- README listed the wrong default for `backgroundColor`
+  (`Color(0x33FFFFFF)`, not `Color(0xFFF6F6F6)`).
+
 ## [3.0.0] - 2026-10-15
 
 ### Breaking
